@@ -1,15 +1,34 @@
-export const addProductAction = (element) => ({
-    type: 'ADD_PRODUCT',
-    id: element.id,
-    selectedProduct: element
-})
+export const getProducts = () => {
+    return dispatch => {
+        dispatch(getProductsStarted());
 
-export const increaseQuantity = (record) => ({
-    type: 'INCREASE_QUANTITY',
-    id: record.id
-})
+        fetch('https://shopserver.firebaseapp.com/get-products')
+            .then((response) => {
+                return response.json();
+            })
+            .then(response => {
+                dispatch(getProductsSuccess(response));
+            })
+            .catch(err => {
+                dispatch(getProductsFailure(err.message));
+            });
+    }
+}
 
-export const decreaseQuantity = (record) => ({
-    type: 'DECREASE_QUANTITY',
-    id: record.id
-})
+const getProductsSuccess = products => ({
+    type: "ADD_PRODUCT_SUCCESS",
+    payload: {
+        ...products
+    }
+});
+
+const getProductsStarted = () => ({
+    type: "ADD_PRODUCT_STARTED"
+});
+
+const getProductsFailure = error => ({
+    type: "ADD_PRODUCT_FAILURE",
+    payload: {
+        error
+    }
+});

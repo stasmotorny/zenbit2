@@ -1,8 +1,9 @@
 import { Card } from 'antd';
 import ReactCardFlip from 'react-card-flip';
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux'
-import { addProductAction } from '../Redux/Actions/ProductAction'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addProductAction } from '../Redux/Actions/cardAction';
+import { Col } from 'antd';
 
 export const CardItem = (element) => {
 
@@ -16,27 +17,36 @@ export const CardItem = (element) => {
 
     const dispatch = useDispatch()
 
-    return (
-        <ReactCardFlip isFlipped={isFlipped}>
-            <Card
-                hoverable
-                style={{ width: 240 }}
-                cover={<img alt="example" src={element.image} style={{ minHeight: '320px' }} />}
-                onMouseEnter={cardFlip}
-                extra={<button onClick={() => dispatch(addProductAction(element))}>add</button>}
-            >
-                <Meta title={element.name} />
-            </Card>
+    console.log("maped", element)
 
-            <Card
-                hoverable
-                style={{ width: 240 }}
-                cover={<img alt="example" src={element.image} style={{ minHeight: '320px' }} />}
-                onMouseLeave={cardFlip}
-                extra={<button onClick={() => dispatch(addProductAction(element))}>add</button>}
-            >
-                <Meta title="back" />
-            </Card>
-        </ReactCardFlip>
+    const gridStyle = {
+        width: '100%',
+        textAlign: 'center',
+    };
+
+    return (
+        <Col className="gutter-row" span={8}>
+            <ReactCardFlip isFlipped={isFlipped}>
+                <Card
+                    hoverable
+                    style={gridStyle}
+                    cover={<img alt="example" src={element.element.image} style={{ minHeight: '90px' }} />}
+                    onMouseEnter={cardFlip}
+                    extra={<button onClick={() => dispatch(addProductAction(element))}>add</button>}
+                >
+                    <Meta title={element.element.name} />
+                </Card>
+
+                <Card
+                    hoverable
+                    style={gridStyle}
+                    cover={<img alt="example" src={element.element.image} style={{ minHeight: '90px' }} />}
+                    onMouseLeave={cardFlip}
+                    extra={<button onClick={() => dispatch(addProductAction(element))}>add</button>}
+                >
+                    <Meta title="Price:" description={element.element.price} />
+                </Card>
+            </ReactCardFlip>
+        </Col>
     )
 }

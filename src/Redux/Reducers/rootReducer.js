@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux'
-import {counterReducer} from "./counterReducer"
 import {ProductReducer} from "./productReducer"
+import {CardReducer} from "./cardReducer"
 
 const rootReducer = combineReducers({
-    counterReducer,
-    ProductReducer
+    ProductReducer,
+    CardReducer
 })
 
 export {rootReducer};
